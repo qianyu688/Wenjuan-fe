@@ -1,0 +1,16 @@
+.wrapper{
+    margin-bottom: 12px;
+    cursor:pointer; //鼠标放上显示“小手”
+    background-color: #dcd5d547;
+    border:1px solid #fff;
+    padding:12px;
+    border-radius: 3px;
+    
+    &:hover {
+        border-color:#d9d9d9
+    }
+}
+
+.component {
+    pointer-events: none; //屏蔽鼠标行为
+}

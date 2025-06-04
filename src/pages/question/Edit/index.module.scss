@@ -1,0 +1,52 @@
+.container{
+    display: flex ;
+    flex-direction: column;
+    height: 100vh;
+    background-color: #f0f2f5;
+}
+
+.content-wrapper{
+    flex:auto;
+    padding:12px 0;
+
+}
+
+.content{
+    margin:0 24px;
+    display: flex;
+    height: 100%;
+
+    .left{
+        width: 345px;
+        background-color: #fff;
+        padding:0 12px;
+
+    }
+
+    .main{
+        flex:1;
+        position: relative;
+        overflow: hidden;//最外侧不许滚动
+
+        .canvas-wrapper{
+            position: absolute;
+            width:400px;
+            height:652px; //712
+            top:50%;
+            left:50%;
+            transform: translateX(-50%) translateY(-50%);
+            // background-color: #fff;
+            overflow: auto;//里面可以滚动
+            box-shadow: 0 2px 10px #0000001f;
+            // padding-top: 57px;
+        }
+    }
+
+    .right{
+        width: 335px;
+        background-color: #fff;
+        padding: 0px 12px;
+    }
+
+    
+}

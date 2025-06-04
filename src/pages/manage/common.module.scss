@@ -1,0 +1,28 @@
+.header{
+    //这里flex弹性布局的用法
+    //这里显示打开启用flex
+    display: flex;
+
+    .left{
+        // 左边占可用空间的一半
+        flex: 1;
+    }
+
+    .right{
+        // 右边也占一半
+        flex: 1;
+        // 有右边的元素靠右对齐
+        text-align: right;
+        //让这个div整体往下挪，而margin-bottom是div中的一个元素与下面的元素之间的距离
+        padding-top: 15px;
+    }
+}
+
+.content {
+    // 下边距
+    margin-bottom: 20px;
+}
+
+.footer {
+    text-align: center;
+}
