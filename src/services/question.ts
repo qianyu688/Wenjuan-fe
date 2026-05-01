@@ -10,6 +10,7 @@ type searchOption = {
 }
 //每一项都是针对于某一个功能api（）的请求函数
 //获取单个问卷信息
+//                                      需要传入         返回数据
 export async function getQuestionService(id: string): Promise<ResDataType> {
   const url = `/api/question/${id}`
   const data = (await axios.get(url)) as ResDataType

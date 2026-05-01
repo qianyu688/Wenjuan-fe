@@ -59,8 +59,10 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     {
       manual: true,
       onSuccess(result) {
+        // 👉 加上这行，看看后端到底传回来了个啥！
+        // console.log('复制成功后，后端返回的数据是：', result)
         message.success('复制成功')
-        nav(`/question/edit/${result.id}`)
+        nav(`/question/edit/${result.id || result._id}`)
       },
     }
   )

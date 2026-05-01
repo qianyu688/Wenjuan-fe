@@ -4,6 +4,7 @@ import cloneDeep from 'lodash.clonedeep'
 
 import { ComponentPropsType } from '../../components/QuestionComponents'
 import { getNextSelectedId, insertNewComponent } from './utils'
+import { arrayMove } from '@dnd-kit/sortable'
 
 //单个组件
 export type ComponentInfoType = {
@@ -154,6 +155,16 @@ export const componentsSlice = createSlice({
         curComp.title = title
       }
     },
+    // 移动组件位置
+    moveComponent: (
+      draft: ComponentsStateType,
+      action: PayloadAction<{ oldIndex: number; newIndex: number }>
+    ) => {
+      const { componentList: curComponentList } = draft
+      const { oldIndex, newIndex } = action.payload
+
+      draft.componentList = arrayMove(curComponentList, oldIndex, newIndex)
+    },
   },
 })
 
@@ -170,5 +181,6 @@ export const {
   selectPrevComponent,
   selectNextComponent,
   changeComponentTitle,
+  moveComponent,
 } = componentsSlice.actions //15036739439
 export default componentsSlice.reducer

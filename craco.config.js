@@ -4,7 +4,7 @@ module.exports = {
     port: 8000, //B端前端
     proxy: {
       // 所有以‘/api’开头url都指向3001端口
-      '/api': 'http://localhost:3001', //Mock
+      '/api': 'http://localhost:3005', //Nestjs
     },
   },
 }

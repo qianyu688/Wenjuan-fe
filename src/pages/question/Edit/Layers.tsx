@@ -11,7 +11,10 @@ import {
   toggleComponentLocked,
   changeComponentHidden,
   changeComponentTitle,
+  moveComponent,
 } from '../../../store/componentsReducer'
+import SortableContainer from '../../../components/DragSortable/SortableContainer'
+import SortableItem from '../../../components/DragSortable/SortableItem'
 
 const Layers: FC = () => {
   const { componentList, selectedId } = useGetComponentInfo()
@@ -65,8 +68,18 @@ const Layers: FC = () => {
   // function handleDragEnd(oldIndex: number, newIndex: number) {
   // }
 
+  //items属性需要id
+  const componentListWithId = componentList.map(c => {
+    return { ...c, id: c.fe_id }
+  })
+
+  //拖拽排序结束
+  function handleDragEnd(oldIndex: number, newIndex: number) {
+    dispatch(moveComponent({ oldIndex, newIndex }))
+  }
+
   return (
-    <>
+    <SortableContainer items={componentListWithId} onDragEnd={handleDragEnd}>
       {componentList.map(c => {
         const { fe_id, title, isHidden, isLocked } = c
 
@@ -79,8 +92,8 @@ const Layers: FC = () => {
         })
 
         return (
-          <div key={fe_id} id={fe_id}>
-            <div key={fe_id} className={styles.wrapper}>
+          <SortableItem key={fe_id} id={fe_id}>
+            <div className={styles.wrapper}>
               <div className={titleClassName} onClick={() => handleTitleClick(fe_id)}>
                 {fe_id === changingTitleId && (
                   <Input
@@ -114,10 +127,10 @@ const Layers: FC = () => {
                 </Space>
               </div>
             </div>
-          </div>
+          </SortableItem>
         )
       })}
-    </>
+    </SortableContainer>
   )
 }
 

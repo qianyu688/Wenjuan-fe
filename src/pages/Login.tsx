@@ -48,7 +48,7 @@ const Login: FC = () => {
   }, [])
 
   const { run: loginInfo } = useRequest(
-    async (password: string, username: string) => {
+    async (username: string, password: string) => {
       const data = await loginService(username, password)
       return data
     },
