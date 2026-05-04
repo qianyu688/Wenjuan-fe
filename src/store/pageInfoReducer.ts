@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
 //用户信息
 export type PageInfoType = {
   title: string
@@ -6,9 +7,32 @@ export type PageInfoType = {
   js?: string
   css?: string
   isPublished?: boolean
+  // --- 教学场景绑定字段 ---
+  courseName?: string
+  teacherId?: string
+  semester?: string
+  isTemplate?: boolean
+  // --- 新增：定向下发与匿名设置 ---
+  isAnonymous?: boolean
+  targetMajors?: string[]
 }
+
 //初始化
-const INIT_STATE: PageInfoType = { title: '', desc: '', js: ' ', css: '' }
+const INIT_STATE: PageInfoType = {
+  title: '',
+  desc: '',
+  js: ' ',
+  css: '',
+  isPublished: false,
+  // --- 默认值 ---
+  courseName: '',
+  teacherId: '',
+  semester: '',
+  isTemplate: false,
+  // --- 新增默认值 ---
+  isAnonymous: false,
+  targetMajors: [],
+}
 
 export const pageInfoSlice = createSlice({
   name: 'pageInfo',
@@ -20,8 +44,11 @@ export const pageInfoSlice = createSlice({
       return action.payload
     },
     //修改组件标题
-    changePageTitle: (state: PageInfoType, action: PayloadAction<string>) => {
-      state.title = action.payload
+    changePageTitle: (state: PageInfoType, action: PayloadAction<Partial<PageInfoType>>) => {
+      return {
+        ...state,
+        ...action.payload,
+      }
     },
   },
 })

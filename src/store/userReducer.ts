@@ -3,6 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 export type UserStateType = {
   username: string
   nickname: string
+  // --- 新增字段 ---
+  role?: 'admin' | 'teacher' | 'student'
+  department?: string
+  major?: string
+  grade?: string
+  studentId?: string
 }
 //初始化
 const INIT_STATE: UserStateType = { username: '', nickname: '' }

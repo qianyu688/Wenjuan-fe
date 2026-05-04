@@ -15,7 +15,7 @@ import { useRequest } from 'ahooks'
 import styles from './QuestionCard.module.scss'
 import { duplicateQuestionService, UpdateQuestionService } from '../services/question'
 
-//定义自定义类型
+// 定义自定义类型
 type PropsType = {
   _id: string //字符串类型
   title: string
@@ -23,6 +23,9 @@ type PropsType = {
   isPublished: boolean //布尔类型
   answerCount: number
   createdAt: string
+  // --- 新增：教学场景属性 ---
+  courseName?: string
+  semester?: string
 }
 
 const { confirm } = Modal
@@ -30,19 +33,20 @@ const { confirm } = Modal
 //组件入口
 const QuestionCard: FC<PropsType> = (props: PropsType) => {
   const nav = useNavigate()
-  const { _id, title, createdAt, answerCount, isPublished, isStar } = props
+  // --- 修改：从 props 中解构出新字段 ---
+  const { _id, title, createdAt, answerCount, isPublished, isStar, courseName, semester } = props
 
   const [isStarState, setIsStarState] = useState(isStar)
 
   // 切换标星
   const { loading: changeStarLoading, run: changeStar } = useRequest(
     async () => {
-      await UpdateQuestionService(_id, { isStar: !isStarState }) //更新isStar，注意这里还没有切换isStarState的值
+      await UpdateQuestionService(_id, { isStar: !isStarState })
     },
     {
       manual: true,
       onSuccess() {
-        setIsStarState(!isStarState) //更新state
+        setIsStarState(!isStarState)
         message.success('已更新标星状态')
       },
     }
@@ -50,8 +54,6 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
 
   //复制操作
   const { loading: duplicateLoading, run: duplicate } = useRequest(
-    //两种关于大括号的写法
-    // async () => await duplicateQuestionService(_id),
     async () => {
       const data = await duplicateQuestionService(_id)
       return data
@@ -59,8 +61,6 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     {
       manual: true,
       onSuccess(result) {
-        // 👉 加上这行，看看后端到底传回来了个啥！
-        // console.log('复制成功后，后端返回的数据是：', result)
         message.success('复制成功')
         nav(`/question/edit/${result.id || result._id}`)
       },
@@ -88,8 +88,8 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
     })
   }
 
-  //用前端模拟一个服务端的删除操作--已经删除（isDeleted=true）的不再渲染
   if (isDeletedState) return null
+
   return (
     <>
       <div className={styles.container}>
@@ -98,9 +98,17 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
             <Link to={isPublished ? `/question/stat/${_id}` : `/question/edit/${_id}`}>
               <Space>
                 {isStarState && <StarOutlined style={{ color: 'red' }} />}
-                {title}
+                {/* 给标题加个粗，让层级更分明 */}
+                <span style={{ fontSize: '15px', fontWeight: 'bold' }}>{title}</span>
               </Space>
             </Link>
+
+            {/* --- 新增：渲染业务标签 --- */}
+            <Space size="small" style={{ marginLeft: '16px' }}>
+              {courseName && <Tag color="blue">{courseName}</Tag>}
+              {semester && <Tag color="cyan">{semester}</Tag>}
+            </Space>
+            {/* ----------------------- */}
           </div>
           <div className={styles.right}>
             <Space>
@@ -112,6 +120,7 @@ const QuestionCard: FC<PropsType> = (props: PropsType) => {
         </div>
         <Divider style={{ margin: '12px 0' }} />
         <div className={styles['button-container']}>
+          {/* 按钮部分保持原样 */}
           <div className={styles.left}>
             <Space>
               <Button

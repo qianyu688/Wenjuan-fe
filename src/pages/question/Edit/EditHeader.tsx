@@ -24,7 +24,7 @@ const TitleElem: FC = () => {
   function changeTitle(event: ChangeEvent<HTMLInputElement>) {
     const newTitle = event.target.value.trim()
     if (!newTitle) return
-    dispatch(changePageTitle(newTitle))
+    dispatch(changePageTitle({ title: newTitle }))
   }
 
   if (editState) {
